@@ -1,0 +1,49 @@
+DROP TABLE if EXISTS vol;
+DROP TABLE if EXISTS avion;
+DROP TABLE if EXISTS pilote;
+DROP TABLE if EXISTS ligne;
+
+
+
+Create table avion(
+    ano serial,
+    type text,
+    places integer check(places>=100 and places<=500),
+    compagnie text, 
+    CONSTRAINT pk_avion PRIMARY KEY(ano)
+);
+
+Create table pilote(
+    pno serial,
+    nom text,
+    prenom text,
+    adresse text DEFAULT 'Lille',
+    CONSTRAINT pk_pilote PRIMARY KEY(pno)
+);
+
+Create table ligne(
+    lno serial,
+    depart text,
+    arrivee text,
+    CONSTRAINT pk_ligne PRIMARY KEY(lno)        
+);
+
+
+Create table vol(
+    ano integer,
+    pno integer,
+    lno integer,
+    hdep TIME,
+    harr TIME,
+    CONSTRAINT pk_vol PRIMARY KEY(ano,pno,lno),
+    CONSTRAINT fk_avion FOREIGN KEY(ano) REFERENCES avion(ano) ON UPDATE cascade,
+    CONSTRAINT fk_pilote FOREIGN KEY(pno) REFERENCES pilote(pno) ON UPDATE cascade,
+    CONSTRAINT fk_ligne FOREIGN KEY(lno) REFERENCES ligne(lno) ON UPDATE cascade
+);
+
+CREATE TEMP TABLE copievol as select * from vol;
+DELETE FROM vol;
+
+INSERT INTO avion(type, places, compagnie) VALUES('gros avion','400','AirFrance'),('petit avion',100,'ChaunyAirLine'),('moyen avion',200,'VA AirWays');
+INSERT INTO pilote(nom,prenom) VALUES('Pablo','Escobar'),('Alaer','MAllo'),('Sardou','Michel');
+INSERT INTO ligne(depart,arrivee) VALUES ('Medelline','Cali'),('Chauny','Ternier'),('Paris','Lille');

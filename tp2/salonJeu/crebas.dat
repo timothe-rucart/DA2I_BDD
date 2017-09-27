@@ -1,0 +1,100 @@
+/*==============================================================*/
+/* Nom de SGBD :  Microsoft Access 2000                         */
+/* Date de création :  13/09/2017 13:30:54                      */
+/*==============================================================*/
+
+
+alter table EXPOSANT
+   drop constraint FK_EXPOSANT_APPARTIEN_TYPEEXPO;
+
+alter table PAYE
+   drop constraint FK_PAYE_PAYE_TYPESTAN;
+
+alter table PAYE
+   drop constraint FK_PAYE_PAYE2_TYPEEXPO;
+
+alter table STAND
+   drop constraint FK_STAND_EST_TYPESTAN;
+
+drop table EXPOSANT;
+
+drop table PAYE;
+
+drop table STAND;
+
+drop table TYPEEXPO;
+
+drop table TYPESTAND;
+
+/*==============================================================*/
+/* Table : EXPOSANT                                             */
+/*==============================================================*/
+create table EXPOSANT
+(
+    ENO                  INTEGER         not null,
+    CODIF                NOTE            not null,
+    NOM                  NOTE,
+    ADRESSE              NOTE,
+    CP                   NOTE,
+constraint PK_EXPOSANT primary key (ENO)
+);
+
+/*==============================================================*/
+/* Table : PAYE                                                 */
+/*==============================================================*/
+create table PAYE
+(
+    TYPE                 NOTE            not null,
+    CODIF                NOTE            not null,
+    MONTANT              INTEGER,
+constraint PK_PAYE primary key (TYPE, CODIF)
+);
+
+/*==============================================================*/
+/* Table : STAND                                                */
+/*==============================================================*/
+create table STAND
+(
+    NUMERO               INTEGER         not null,
+    TYPE                 NOTE            not null,
+    ALLEE                INTEGER,
+    PLACE                INTEGER,
+constraint PK_STAND primary key (NUMERO)
+);
+
+/*==============================================================*/
+/* Table : TYPEEXPO                                             */
+/*==============================================================*/
+create table TYPEEXPO
+(
+    CODIF                NOTE            not null,
+    DESCRIPTION          NOTE,
+constraint PK_TYPEEXPO primary key (CODIF)
+);
+
+/*==============================================================*/
+/* Table : TYPESTAND                                            */
+/*==============================================================*/
+create table TYPESTAND
+(
+    TYPE                 NOTE            not null,
+    DESCRIPTION          NOTE,
+constraint PK_TYPESTAND primary key (TYPE)
+);
+
+alter table EXPOSANT
+   add constraint FK_EXPOSANT_APPARTIEN_TYPEEXPO foreign key (CODIF)
+      references TYPEEXPO (CODIF);
+
+alter table PAYE
+   add constraint FK_PAYE_PAYE_TYPESTAN foreign key (TYPE)
+      references TYPESTAND (TYPE);
+
+alter table PAYE
+   add constraint FK_PAYE_PAYE2_TYPEEXPO foreign key (CODIF)
+      references TYPEEXPO (CODIF);
+
+alter table STAND
+   add constraint FK_STAND_EST_TYPESTAN foreign key (TYPE)
+      references TYPESTAND (TYPE);
+

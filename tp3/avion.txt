@@ -1,0 +1,9 @@
+ano,type,places,compagnie
+1,A310,200,Air France
+2,B727,230,Air France
+3,A350,300,Air Liberte
+4,B727,230,Corsair
+5,A330,250,Corsair
+6,B747,200,Sabena
+7,Caravelle,100,Air France
+8,Caravelle,100,Air Liberte

@@ -1,0 +1,134 @@
+/*==============================================================*/
+/* Nom de SGBD :  Microsoft Access 2000                         */
+/* Date de création :  13/09/2017 11:34:11                      */
+/*==============================================================*/
+
+
+alter table CLIENT
+   drop constraint FK_CLIENT_EST_UN_CATEGORI;
+
+alter table EST_ACHETE
+   drop constraint FK_EST_ACHE_EST_ACHET_SAC;
+
+alter table EST_ACHETE
+   drop constraint FK_EST_ACHE_EST_ACHET_CATEGORI;
+
+alter table EST_FAIT_DE
+   drop constraint FK_EST_FAIT_EST_FAIT__SAC;
+
+alter table EST_FAIT_DE
+   drop constraint FK_EST_FAIT_EST_FAIT__MATIERE;
+
+alter table EST_FAIT_DE
+   drop constraint FK_EST_FAIT_EST_FAIT__MARQUE;
+
+drop table CATEGORIE;
+
+drop table CLIENT;
+
+drop table EST_ACHETE;
+
+drop table EST_FAIT_DE;
+
+drop table MARQUE;
+
+drop table MATIERE;
+
+drop table SAC;
+
+/*==============================================================*/
+/* Table : CATEGORIE                                            */
+/*==============================================================*/
+create table CATEGORIE
+(
+    NUMCATEGORIE         INTEGER         not null,
+    INTITULE             NOTE,
+constraint PK_CATEGORIE primary key (NUMCATEGORIE)
+);
+
+/*==============================================================*/
+/* Table : CLIENT                                               */
+/*==============================================================*/
+create table CLIENT
+(
+    CNO                  INTEGER         not null,
+    NUMCATEGORIE         INTEGER         not null,
+    NOM                  NOTE,
+    ADRESSE              NOTE,
+constraint PK_CLIENT primary key (CNO)
+);
+
+/*==============================================================*/
+/* Table : EST_ACHETE                                           */
+/*==============================================================*/
+create table EST_ACHETE
+(
+    SNO                  INTEGER         not null,
+    NUMCATEGORIE         INTEGER         not null,
+    PRIX                 INTEGER,
+constraint PK_EST_ACHETE primary key (SNO, NUMCATEGORIE)
+);
+
+/*==============================================================*/
+/* Table : EST_FAIT_DE                                          */
+/*==============================================================*/
+create table EST_FAIT_DE
+(
+    SNO                  INTEGER         not null,
+    MNO                  NOTE            not null,
+    NOM_MARQUE           TEXT(10),
+constraint PK_EST_FAIT_DE primary key (SNO, MNO)
+);
+
+/*==============================================================*/
+/* Table : MARQUE                                               */
+/*==============================================================*/
+create table MARQUE
+(
+    NOM_MARQUE           TEXT(10)        not null,
+constraint PK_MARQUE primary key (NOM_MARQUE)
+);
+
+/*==============================================================*/
+/* Table : MATIERE                                              */
+/*==============================================================*/
+create table MATIERE
+(
+    MNO                  NOTE            not null,
+    TYPE                 NOTE,
+constraint PK_MATIERE primary key (MNO)
+);
+
+/*==============================================================*/
+/* Table : SAC                                                  */
+/*==============================================================*/
+create table SAC
+(
+    SNO                  INTEGER         not null,
+constraint PK_SAC primary key (SNO)
+);
+
+alter table CLIENT
+   add constraint FK_CLIENT_EST_UN_CATEGORI foreign key (NUMCATEGORIE)
+      references CATEGORIE (NUMCATEGORIE);
+
+alter table EST_ACHETE
+   add constraint FK_EST_ACHE_EST_ACHET_SAC foreign key (SNO)
+      references SAC (SNO);
+
+alter table EST_ACHETE
+   add constraint FK_EST_ACHE_EST_ACHET_CATEGORI foreign key (NUMCATEGORIE)
+      references CATEGORIE (NUMCATEGORIE);
+
+alter table EST_FAIT_DE
+   add constraint FK_EST_FAIT_EST_FAIT__SAC foreign key (SNO)
+      references SAC (SNO);
+
+alter table EST_FAIT_DE
+   add constraint FK_EST_FAIT_EST_FAIT__MATIERE foreign key (MNO)
+      references MATIERE (MNO);
+
+alter table EST_FAIT_DE
+   add constraint FK_EST_FAIT_EST_FAIT__MARQUE foreign key (NOM_MARQUE)
+      references MARQUE (NOM_MARQUE);
+
