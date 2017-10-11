@@ -1,0 +1,7 @@
+SELECT pno FROM pilote WHERE adresse = (SELECT adresse FROM pilote WHERE nom='Dupont');
+
+SELECT p2.pno FROM pilote as p1 INNER JOIN pilote as p2 ON p1.adresse = p2.adresse WHERE p1.nom='Dupont';
+
+SELECT ano FROM avion WHERE places > (SELECT max(places) from avion WHERE compagnie='AirFrance');
+
+SELECT count(ano) from avion where places = ( SELECT max(places) from avion);

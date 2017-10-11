@@ -1,0 +1,22 @@
+DROP TABLE if exists commandes;
+DROP TABLE if exists fournisseurs;
+DROP TABLE if exists produits;
+
+
+CREATE TABLE fournisseurs(  fno serial,
+                            nom text,
+                            ville text,
+                            CONSTRAINT pk_fournisseur primary key(fno));
+                            
+CREATE TABLE produits (     pno serial,
+                            libelle text,
+                            prix integer,
+                            CONSTRAINT pk_produits primary key(pno));                            
+                            
+CREATE TABLE commandes (    cno serial,
+                            pno integer,
+                            fno integer,
+                            qute integer,
+                            CONSTRAINT pk_commandes primary key(cno),
+                            CONSTRAINT fk_produits foreign key(pno) references produits(pno),
+                            CONSTRAINT fk_fournisseurs foreign key(fno) references fournisseurs(fno));                    
